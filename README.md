@@ -14,7 +14,8 @@ A simple Java-based project for learning purposes.
 - Run:
   ```bash
   java -cp AttendanceSystem/src com.school.Main
-  ```
+  ```3
+  
 
 ## Part 2 Updates
 - **New classes**: `Student.java`, `Course.java` in `AttendanceSystem/src/com/school/`.
