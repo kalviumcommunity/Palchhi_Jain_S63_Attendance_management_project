@@ -46,4 +46,10 @@ CS101 - Intro to CS (3/ 5)
 MATH201 - Discrete Math (2/ 5)
   1. Student{id=1, name='Alice', attendance%=100.0}
   2. Student{id=3, name='Charlie', attendance%=100.0}
+
+  ### Part 3 - Constructor Initialization & Auto-ID Generation
+- Implemented constructors for Student and Course classes.
+- Automatic unique ID generation using static counters.
+- Demonstrated creation of multiple instances showing sequential ID generation.
+
 ```

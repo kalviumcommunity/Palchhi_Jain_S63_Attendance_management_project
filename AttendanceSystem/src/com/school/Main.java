@@ -1,33 +1,25 @@
-package com.school;
-
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Welcome to Attendance Management System!");
+        // Creating Students
+        Student s1 = new Student("Alice");
+        Student s2 = new Student("Bob");
+        Student s3 = new Student("Charlie");
 
-        Student[] students = new Student[]{
-                new Student(1, "Alice", 5),
-                new Student(2, "Bob", 5),
-                new Student(3, "Charlie", 5)
-        };
+        // Creating Courses
+        Course c1 = new Course("Mathematics");
+        Course c2 = new Course("Computer Science");
+        Course c3 = new Course("Physics");
 
-        students[0].markAttendance(0, true);
-        students[0].markAttendance(1, true);
-        students[1].markAttendance(0, false);
-        students[2].markAttendance(0, true);
+        // Display Student Details
+        System.out.println("=== Students ===");
+        s1.displayDetails();
+        s2.displayDetails();
+        s3.displayDetails();
 
-        Course course1 = new Course("CS101", "Intro to CS", 5);
-        Course course2 = new Course("MATH201", "Discrete Math", 5);
-
-     
-        for (Student s : students) {
-            course1.enrollStudent(s);
-        }
-        course2.enrollStudent(students[0]);
-        course2.enrollStudent(students[2]);
-
-    
-        System.out.println("\nCourse Rosters:");
-        System.out.println(course1.roster());
-        System.out.println(course2.roster());
+        // Display Course Details
+        System.out.println("\n=== Courses ===");
+        c1.displayDetails();
+        c2.displayDetails();
+        c3.displayDetails();
     }
 }
