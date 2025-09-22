@@ -1,3 +1,5 @@
+package com.school;
+
 public class Course {
     private static int nextCourseIdCounter = 101;  // starts from 101
     private int courseId;
@@ -7,6 +9,14 @@ public class Course {
     public Course(String courseName) {
         this.courseId = nextCourseIdCounter++;
         this.courseName = courseName;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
     }
 
     public void displayDetails() {
