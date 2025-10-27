@@ -9,6 +9,8 @@ public class AttendanceRecord {
     public AttendanceRecord(int studentId, int courseId, String status) {
         this.studentId = studentId;
         this.courseId = courseId;
+        
+        // Validation for status
         if ("Present".equalsIgnoreCase(status) || "Absent".equalsIgnoreCase(status)) {
             this.status = status;
         } else {
