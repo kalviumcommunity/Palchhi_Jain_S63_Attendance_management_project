@@ -71,5 +71,25 @@ public class Main {
         for (AttendanceRecord record : attendanceLog) {
             record.displayRecord();
         }
+
+        // File Storage
+        System.out.println("\n=== Saving Data to Files ===");
+        
+        // Create ArrayLists for storage
+        List<Student> students = new ArrayList<>();
+        students.add(s1);
+        students.add(s2);
+        students.add(s3);
+
+        List<Course> courses = new ArrayList<>();
+        courses.add(c1);
+        courses.add(c2);
+        courses.add(c3);
+
+        // Create FileStorageService and save data
+        FileStorageService storageService = new FileStorageService();
+        storageService.saveData(students, "students.txt");
+        storageService.saveData(courses, "courses.txt");
+        storageService.saveData(attendanceLog, "attendance_log.txt");
     }
 }

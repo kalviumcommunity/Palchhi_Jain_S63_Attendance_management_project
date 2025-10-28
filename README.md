@@ -165,3 +165,92 @@ Attendance Record: Student ID=2, Course ID=101, Status=Absent
 Attendance Record: Student ID=3, Course ID=102, Status=Present
 Attendance Record: Student ID=1, Course ID=103, Status=Invalid
 ```
+
+## Part 6 - Generics & File Storage with Storable Interface
+
+### Features Implemented:
+
+1. **Storable Interface**:
+   - Created `Storable.java` interface in `src/com/school/`
+   - Defines contract: `String toDataString();`
+   - Enables polymorphic data serialization
+
+2. **Interface Implementation**:
+   - `Student.java` implements `Storable`:
+     - `toDataString()` returns: `id,name,gradeLevel`
+   
+   - `Course.java` implements `Storable`:
+     - `toDataString()` returns: `courseId,courseName`
+   
+   - `AttendanceRecord.java` implements `Storable`:
+     - `toDataString()` returns: `studentId,courseId,status`
+
+3. **Generic File Storage Service**:
+   - Created `FileStorageService.java` with:
+     - Method: `public void saveData(List<? extends Storable> items, String filename)`
+     - Accepts any List of Storable objects (uses wildcard generics)
+     - Uses try-with-resources for FileWriter and PrintWriter
+     - Iterates through items, calling `toDataString()`, and writes each line
+     - Includes error handling for IOException
+
+4. **Main.java Updates**:
+   - Creates `ArrayList<Student>` and populates with student objects
+   - Creates `ArrayList<Course>` and populates with course objects
+   - Creates `FileStorageService` instance
+   - Calls `saveData()` to save:
+     - Students to `students.txt`
+     - Courses to `courses.txt`
+     - Attendance records to `attendance_log.txt`
+
+### Compile (Part 6)
+```bash
+javac AttendanceSystem/src/com/school/Storable.java \
+      AttendanceSystem/src/com/school/Person.java \
+      AttendanceSystem/src/com/school/Student.java \
+      AttendanceSystem/src/com/school/Teacher.java \
+      AttendanceSystem/src/com/school/Staff.java \
+      AttendanceSystem/src/com/school/Course.java \
+      AttendanceSystem/src/com/school/AttendanceRecord.java \
+      AttendanceSystem/src/com/school/FileStorageService.java \
+      AttendanceSystem/src/com/school/Main.java
+```
+
+### Run (Part 6)
+```bash
+java -cp AttendanceSystem/src com.school.Main
+```
+
+### Output Files Generated
+
+After running the program, three CSV files are created in the project root:
+
+**students.txt** - Student data in CSV format
+```
+1,Alice,Grade 10
+2,Bob,Grade 10
+3,Charlie,Grade 11
+```
+
+**courses.txt** - Course data in CSV format
+```
+101,Mathematics
+102,Computer Science
+103,Physics
+```
+
+**attendance_log.txt** - Attendance records in CSV format
+```
+1,101,Present
+2,101,Absent
+3,102,Present
+1,103,Invalid
+```
+
+### Key Concepts Demonstrated
+
+- **Generics**: Wildcard type `List<? extends Storable>` for flexible data handling
+- **Polymorphism**: Different classes implementing same interface with different data formats
+- **Try-with-resources**: Automatic resource management for file operations
+- **Error Handling**: IOException handling for file operations
+- **CSV Format**: Simple comma-separated values for data persistence
+- **Separation of Concerns**: FileStorageService handles all file I/O logic separately
