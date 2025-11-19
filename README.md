@@ -254,3 +254,40 @@ After running the program, three CSV files are created in the project root:
 - **Error Handling**: IOException handling for file operations
 - **CSV Format**: Simple comma-separated values for data persistence
 - **Separation of Concerns**: FileStorageService handles all file I/O logic separately
+ 
+## Part 7 - Polymorphism in Person Hierarchy & Improved Attendance Display
+
+### Features Implemented:
+
+- **Polymorphic Directory Display**: Added `displaySchoolDirectory(List<Person> people)` in `Main.java` that calls `displayDetails()` on each `Person` instance so `Student`, `Teacher`, and `Staff` are displayed via runtime polymorphism.
+- **AttendanceRecord Refactor**: `AttendanceRecord` now stores `Student` and `Course` references (not primitive IDs). `displayRecord()` presents richer information using `student.getName()` and `course.getCourseName()`, while `toDataString()` still outputs `studentId,courseId,status` for file persistence.
+- **Filtering for Storage**: Demonstrates filtering `schoolPeople` with `instanceof` to build a `List<Student>` before calling `FileStorageService.saveData(...)`.
+
+### Compile (Part 7)
+```bash
+javac AttendanceSystem/src/com/school/*.java
+```
+
+### Run (Part 7)
+```bash
+java -cp AttendanceSystem/src com.school.Main
+```
+
+### Expected Output Changes
+- A new `=== School Directory ===` section showing `displayDetails()` output for students, teachers, and staff (polymorphic behavior).
+- `=== Attendance Records ===` now shows richer lines such as:
+```
+Attendance Record: Student ID=1, Name=Alice, Course ID=101, Course=Mathematics, Status=Present
+```
+
+### Git Workflow Notes (Part 7)
+Follow these commands to create the `part-07` branch, push, and create a PR:
+
+```bash
+git checkout -b part-07
+git add .
+git commit -m "feat: Demonstrate polymorphism with Person hierarchy and update AttendanceRecord (Part 7)"
+git push -u origin part-07
+```
+
+Then create a PR on GitHub from `part-07` into `main` and merge per your process.
