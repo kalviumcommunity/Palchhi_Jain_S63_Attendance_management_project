@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    public static void displaySchoolDirectory(List<Person> people) {
+        System.out.println("\n=== School Directory ===");
+        for (Person person : people) {
+            person.displayDetails();
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
         // Creating Students
         Student s1 = new Student("Alice", "Grade 10");
@@ -51,14 +59,26 @@ public class Main {
         System.out.println();
         c3.displayDetails();
 
+        // Build school people list and demonstrate polymorphic directory display
+        List<Person> schoolPeople = new ArrayList<>();
+        schoolPeople.add(s1);
+        schoolPeople.add(s2);
+        schoolPeople.add(s3);
+        schoolPeople.add(t1);
+        schoolPeople.add(t2);
+        schoolPeople.add(staff1);
+        schoolPeople.add(staff2);
+
+        displaySchoolDirectory(schoolPeople);
+
         // Attendance Recording
         List<AttendanceRecord> attendanceLog = new ArrayList<>();
 
-        // Create AttendanceRecord objects using student.getId()
-        AttendanceRecord ar1 = new AttendanceRecord(s1.getId(), c1.getCourseId(), "Present");
-        AttendanceRecord ar2 = new AttendanceRecord(s2.getId(), c1.getCourseId(), "Absent");
-        AttendanceRecord ar3 = new AttendanceRecord(s3.getId(), c2.getCourseId(), "Present");
-        AttendanceRecord ar4 = new AttendanceRecord(s1.getId(), c3.getCourseId(), "Late");  // Invalid status
+        // Create AttendanceRecord objects using Student and Course objects
+        AttendanceRecord ar1 = new AttendanceRecord(s1, c1, "Present");
+        AttendanceRecord ar2 = new AttendanceRecord(s2, c1, "Absent");
+        AttendanceRecord ar3 = new AttendanceRecord(s3, c2, "Present");
+        AttendanceRecord ar4 = new AttendanceRecord(s1, c3, "Late");  // Invalid status
 
         // Add to log
         attendanceLog.add(ar1);
@@ -76,10 +96,13 @@ public class Main {
         System.out.println("\n=== Saving Data to Files ===");
         
         // Create ArrayLists for storage
+        // Prepare students list by filtering schoolPeople (demonstrates instanceof and casting)
         List<Student> students = new ArrayList<>();
-        students.add(s1);
-        students.add(s2);
-        students.add(s3);
+        for (Person p : schoolPeople) {
+            if (p instanceof Student) {
+                students.add((Student) p);
+            }
+        }
 
         List<Course> courses = new ArrayList<>();
         courses.add(c1);
