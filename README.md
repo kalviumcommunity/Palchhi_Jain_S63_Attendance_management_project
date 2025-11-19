@@ -291,3 +291,36 @@ git push -u origin part-07
 ```
 
 Then create a PR on GitHub from `part-07` into `main` and merge per your process.
+
+## Part 8 - AttendanceService Overloading & Querying
+
+### Features Implemented:
+
+- **AttendanceService**: New class with overloaded `markAttendance` methods (by object and by ID), helper lookup methods, and multiple `displayAttendanceLog` methods (all, by student, by course).
+- **Main.java**: Demonstrates all overloaded methods, shows attendance logs for all, per student, and per course, and saves attendance data using the service.
+
+### Compile (Part 8)
+```bash
+javac AttendanceSystem/src/com/school/*.java
+```
+
+### Run (Part 8)
+```bash
+java -cp AttendanceSystem/src com.school.Main
+```
+
+### Expected Output Changes
+- Attendance log displays for all, for a specific student, and for a specific course.
+- Attendance marking via both object and ID-based methods.
+- `attendance_log.txt` updated with all records.
+
+### Git Workflow Notes (Part 8)
+Follow these commands to commit and push your changes:
+
+```bash
+git add .
+git commit -m "feat: Add AttendanceService with overloaded methods and log querying (Part 8)"
+git push -u origin part-08
+```
+
+Then create a PR on GitHub from `part-08` into `main` and merge per your process.
