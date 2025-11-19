@@ -2,3 +2,5 @@
 2,101,Absent
 3,102,Present
 1,103,Invalid
+2,102,Present
+3,103,Absent

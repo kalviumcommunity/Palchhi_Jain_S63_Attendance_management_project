@@ -71,48 +71,46 @@ public class Main {
 
         displaySchoolDirectory(schoolPeople);
 
-        // Attendance Recording
-        List<AttendanceRecord> attendanceLog = new ArrayList<>();
-
-        // Create AttendanceRecord objects using Student and Course objects
-        AttendanceRecord ar1 = new AttendanceRecord(s1, c1, "Present");
-        AttendanceRecord ar2 = new AttendanceRecord(s2, c1, "Absent");
-        AttendanceRecord ar3 = new AttendanceRecord(s3, c2, "Present");
-        AttendanceRecord ar4 = new AttendanceRecord(s1, c3, "Late");  // Invalid status
-
-        // Add to log
-        attendanceLog.add(ar1);
-        attendanceLog.add(ar2);
-        attendanceLog.add(ar3);
-        attendanceLog.add(ar4);
-
-        // Display attendance records
-        System.out.println("\n=== Attendance Records ===");
-        for (AttendanceRecord record : attendanceLog) {
-            record.displayRecord();
-        }
-
-        // File Storage
-        System.out.println("\n=== Saving Data to Files ===");
-        
-        // Create ArrayLists for storage
-        // Prepare students list by filtering schoolPeople (demonstrates instanceof and casting)
-        List<Student> students = new ArrayList<>();
+        // Prepare students and courses lists
+        List<Student> allStudents = new ArrayList<>();
         for (Person p : schoolPeople) {
             if (p instanceof Student) {
-                students.add((Student) p);
+                allStudents.add((Student) p);
             }
         }
+        List<Course> allCourses = new ArrayList<>();
+        allCourses.add(c1);
+        allCourses.add(c2);
+        allCourses.add(c3);
 
-        List<Course> courses = new ArrayList<>();
-        courses.add(c1);
-        courses.add(c2);
-        courses.add(c3);
-
-        // Create FileStorageService and save data
+        // Create FileStorageService and AttendanceService
         FileStorageService storageService = new FileStorageService();
-        storageService.saveData(students, "students.txt");
-        storageService.saveData(courses, "courses.txt");
-        storageService.saveData(attendanceLog, "attendance_log.txt");
+        AttendanceService attendanceService = new AttendanceService(storageService);
+
+        // Mark attendance using overloaded methods
+        attendanceService.markAttendance(s1, c1, "Present");
+        attendanceService.markAttendance(s2, c1, "Absent");
+        attendanceService.markAttendance(s3, c2, "Present");
+        attendanceService.markAttendance(s1, c3, "Late"); // Invalid status
+
+        // Mark attendance using IDs and lookup
+        attendanceService.markAttendance(s2.getId(), c2.getCourseId(), "Present", allStudents, allCourses);
+        attendanceService.markAttendance(s3.getId(), c3.getCourseId(), "Absent", allStudents, allCourses);
+
+        // Display all attendance records
+        attendanceService.displayAttendanceLog();
+
+        // Display attendance for a specific student
+        attendanceService.displayAttendanceLog(s1);
+
+        // Display attendance for a specific course
+        attendanceService.displayAttendanceLog(c1);
+
+        // Save attendance log to file
+        attendanceService.saveAttendanceData();
+
+        // Save students and courses as before
+        storageService.saveData(allStudents, "students.txt");
+        storageService.saveData(allCourses, "courses.txt");
     }
 }
