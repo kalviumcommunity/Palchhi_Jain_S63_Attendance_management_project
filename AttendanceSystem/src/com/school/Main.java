@@ -30,10 +30,10 @@ public class Main {
         Staff staff1 = regService.registerStaff("John Doe", "Librarian");
         Staff staff2 = regService.registerStaff("Jane Wilson", "Administrator");
 
-        // Create Courses
-        Course c1 = regService.createCourse("Mathematics");
-        Course c2 = regService.createCourse("Computer Science");
-        Course c3 = regService.createCourse("Physics");
+        // Create Courses with capacities
+        Course c1 = regService.createCourse("Mathematics", 2);
+        Course c2 = regService.createCourse("Computer Science", 2);
+        Course c3 = regService.createCourse("Physics", 1);
 
         // Display Student Details
         System.out.println("=== Students ===");
@@ -55,8 +55,8 @@ public class Main {
         System.out.println();
         staff2.displayDetails();
 
-        // Display Course Details
-        System.out.println("\n=== Courses ===");
+        // Display Course Details (initial)
+        System.out.println("=== Courses (initial) ===");
         c1.displayDetails();
         System.out.println();
         c2.displayDetails();
@@ -66,18 +66,46 @@ public class Main {
         // Display school directory using RegistrationService (polymorphic)
         displaySchoolDirectory(regService);
 
+
+        // Enroll students (respecting capacity) and demonstrate over-capacity attempt
+        regService.enrollStudentInCourse(s1, c1); // should succeed
+        regService.enrollStudentInCourse(s2, c1); // should succeed
+        regService.enrollStudentInCourse(s3, c1); // should fail (capacity 2)
+
+        regService.enrollStudentInCourse(s2, c2); // should succeed
+        regService.enrollStudentInCourse(s3, c2); // should succeed
+
+        regService.enrollStudentInCourse(s1, c3); // should succeed (capacity 1)
+        regService.enrollStudentInCourse(s2, c3); // should fail (capacity reached)
+
+        // Display Course Details after enrollment
+        System.out.println("\n=== Courses (after enrollment) ===");
+        c1.displayDetails();
+        System.out.println();
+        c2.displayDetails();
+        System.out.println();
+        c3.displayDetails();
+
         // Create AttendanceService with injected RegistrationService
         AttendanceService attendanceService = new AttendanceService(storageService, regService);
 
         // Mark attendance using ID-based overloaded method (uses RegistrationService lookups)
-        attendanceService.markAttendance(s1.getId(), c1.getCourseId(), "Present");
-        attendanceService.markAttendance(s2.getId(), c1.getCourseId(), "Absent");
-        attendanceService.markAttendance(s3.getId(), c2.getCourseId(), "Present");
-        attendanceService.markAttendance(s1.getId(), c3.getCourseId(), "Late"); // Invalid status
+        // Only mark attendance if student is enrolled in the course
+        if (c1.getEnrolledStudents().contains(s1)) attendanceService.markAttendance(s1.getId(), c1.getCourseId(), "Present");
+        else System.out.println(s1.getName() + " is not enrolled in " + c1.getCourseName());
+
+        if (c1.getEnrolledStudents().contains(s2)) attendanceService.markAttendance(s2.getId(), c1.getCourseId(), "Absent");
+        else System.out.println(s2.getName() + " is not enrolled in " + c1.getCourseName());
+
+        if (c2.getEnrolledStudents().contains(s3)) attendanceService.markAttendance(s3.getId(), c2.getCourseId(), "Present");
+        else System.out.println(s3.getName() + " is not enrolled in " + c2.getCourseName());
+
+        if (c3.getEnrolledStudents().contains(s1)) attendanceService.markAttendance(s1.getId(), c3.getCourseId(), "Late");
+        else System.out.println(s1.getName() + " is not enrolled in " + c3.getCourseName());
 
         // Additional ID-based markings
-        attendanceService.markAttendance(s2.getId(), c2.getCourseId(), "Present");
-        attendanceService.markAttendance(s3.getId(), c3.getCourseId(), "Absent");
+        if (c2.getEnrolledStudents().contains(s2)) attendanceService.markAttendance(s2.getId(), c2.getCourseId(), "Present");
+        if (c3.getEnrolledStudents().contains(s3)) attendanceService.markAttendance(s3.getId(), c3.getCourseId(), "Absent");
 
         // Display all attendance records
         attendanceService.displayAttendanceLog();
