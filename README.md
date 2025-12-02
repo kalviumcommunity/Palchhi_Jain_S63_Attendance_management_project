@@ -356,3 +356,41 @@ git push -u origin part-09
 ```
 
 Then create a PR on GitHub from `part-09` into `main` and follow your merge process.
+
+## Part 10 - Course Capacity & Enrollment, Project Wrap-up
+
+### Features Implemented:
+
+- **Course Capacity & Enrollment**: `Course` now has `capacity` and maintains `enrolledStudents`. `Course` exposes `addStudent(Student)`, `getNumberOfEnrolledStudents()`, and updated `displayDetails()` and `toDataString()` (includes capacity).
+- **RegistrationService.enrollStudentInCourse(...)**: New method to enroll students into courses and print success/failure messages when capacity is reached.
+- **Main.java Updates**: Courses are created with capacities, students are enrolled (including an over-capacity attempt to demonstrate failure), course details are displayed after enrollment, and attendance marking is skipped for students not enrolled in the course.
+
+### Expected Output & Files
+- Enrollment success/failure messages in console (e.g., "Enrolled Alice in Mathematics", "Failed to enroll Charlie in Mathematics (capacity reached)").
+- Updated `courses.txt` lines include capacity as the third CSV field, e.g.: `101,Mathematics,2`.
+
+### SOLID & Design Notes (Wrap-up)
+
+- **Single Responsibility Principle**: `RegistrationService` centralizes registration and persistence of people and courses; `FileStorageService` handles file I/O; `AttendanceService` manages attendance logic. Each class has a focused responsibility.
+- **Dependency Injection**: `AttendanceService` and `RegistrationService` receive `FileStorageService` (and `RegistrationService` for `AttendanceService`) via constructors, making components decoupled and easier to test.
+- **Interface Use & Polymorphism**: The `Storable` interface and `Person` base class enable polymorphic behavior when saving data and displaying directory entries.
+- **Open/Closed**: New functionality (capacity, enrollment) was added by extending existing classes, avoiding changes to unrelated modules.
+
+### Compile (Part 10)
+```bash
+javac AttendanceSystem/src/com/school/*.java
+```
+
+### Run (Part 10)
+```bash
+java -cp AttendanceSystem/src com.school.Main
+```
+
+### Git Workflow Notes (Part 10)
+```bash
+git add .
+git commit -m "feat: Implement course capacity management and conclude project (Part 10)"
+git push -u origin part-10
+```
+
+Create a PR on GitHub from `part-10` to `main`, include a screenshot of the console output, and paste the `courses.txt` contents in the PR description as requested.
