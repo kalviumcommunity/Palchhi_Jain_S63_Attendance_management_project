@@ -324,3 +324,35 @@ git push -u origin part-08
 ```
 
 Then create a PR on GitHub from `part-08` into `main` and merge per your process.
+
+## Part 9 - RegistrationService & SRP Improvements
+
+### Features Implemented:
+
+- **RegistrationService**: New `RegistrationService.java` that centralizes creation and management of `Student`, `Teacher`, `Staff`, and `Course` lists. It depends on `FileStorageService` to persist the lists.
+- **Storable Support**: `Teacher` and `Staff` now implement `Storable` and provide `toDataString()` so they can be saved by `FileStorageService` like `Student` and `Course`.
+- **AttendanceService Refactor**: `AttendanceService` now depends on `RegistrationService` for lookups; the ID-based `markAttendance(int studentId, int courseId, String status)` uses the registration service to resolve objects.
+- **Main.java Update**: `Main` now creates `FileStorageService`, `RegistrationService`, and `AttendanceService` (with DI). Registrations are done via `regService.registerStudent(...)`, `registerTeacher(...)`, `registerStaff(...)`, `createCourse(...)`. Attendance is recorded via ID-based `markAttendance(...)` and persisted via `regService.saveAllRegistrations()` and `attendanceService.saveAttendanceData()`.
+
+### Compile (Part 9)
+```bash
+javac AttendanceSystem/src/com/school/*.java
+```
+
+### Run (Part 9)
+```bash
+java -cp AttendanceSystem/src com.school.Main
+```
+
+### Expected Output & Files
+- Console output demonstrating registrations, the school directory (polymorphic), and attendance logs.
+- New/updated files generated in the project root: `students.txt`, `teachers.txt`, `staff.txt`, `courses.txt`, and `attendance_log.txt`.
+
+### Git Workflow Notes (Part 9)
+```bash
+git add .
+git commit -m "feat: Apply SRP with RegistrationService and refined AttendanceService (Part 9)"
+git push -u origin part-09
+```
+
+Then create a PR on GitHub from `part-09` into `main` and follow your merge process.
